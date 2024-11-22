@@ -14,7 +14,6 @@ def load_database(DEBUG):
         try:
             database_path = "app/Database/test_database.json"
             with open(database_path, "r") as f:
-                # Ensure the JSON file is loaded as a list
                 benchmark_results = json.load(f)
 
                 # Convert timestamps to datetime

@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 
 from app.Database.database import load_database
 from app.Utility.average import calculate_average
@@ -18,16 +19,40 @@ if DEBUG:
         benchmark_results = []
         print(str(e))
 
-print(benchmark_results)
 
 # Initialize FastAPI app
 app = FastAPI(title="SuperBenchmark", description="A FastAPI app for benchmarking tasks", version="0.1")
 
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def read_root():
-    return {"message": "Welcome to SuperBenchmark!"}
-
+    if DEBUG:
+        return """
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>SuperBenchmark</title>
+        </head>
+        <body>
+            <h1>Welcome to SuperBenchmark</h1>
+            <p>Visit the API documentation <a href="/docs" target="_blank">here</a>.</p>
+        </body>
+    </html>
+    """
+    else:
+        return """
+    <!DOCTYPE html>
+    <html>
+        <head>
+            <title>SuperBenchmark</title>
+        </head>
+        <body>
+            <h1>Welcome to SuperBenchmark</h1>
+            <p>The feature is not ready for live use yet. Set SUPERBENCHMARK_DEBUG to 'true' to enable "
+                           "DEBUG mode.</p>
+        </body>
+    </html>
+    """
 
 @app.get("/health")
 async def health_check():
