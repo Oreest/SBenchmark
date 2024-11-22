@@ -15,7 +15,7 @@ if DEBUG:
     try:
         benchmark_results = load_database(DEBUG)
     except RuntimeError as e:
-        # Handle database load issues (e.g., DEBUG disabled, missing file)
+        # Handle database load error
         benchmark_results = []
         print(str(e))
 
@@ -53,10 +53,6 @@ async def read_root():
         </body>
     </html>
     """
-
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy"}
 
 
 # HTTP GET /results/average
